@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="/2019/03/06/hello-world/"/>
-      <url>/2019/03/06/hello-world/</url>
-      
-        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-  
-  
+<search>
+  <entry>
+    <title><![CDATA[跨域资源共享CORS]]></title>
+    <url>%2F2019%2F04%2F07%2F%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%ABCORS%2F</url>
+    <content type="text"><![CDATA[1、什么是跨越？一个网页向另一个不同域名/不同协议/不同端口的网页请求资源，这就是跨域。 2、为什么会产生跨域请求？因为浏览器使用了同源策略 3、什么是同源策略？同源策略是Netscape提出的一个著名的安全策略，现在所有支持JavaScript的浏览器都会使用这个策略。同源策略是浏览器最核心也最基本的安全功能，如果缺少同源策略，浏览器的正常功能可能受到影响。可以说web是构建在同源策略的基础之上的，浏览器只是针对同源策略的一种实现。 4、为什么浏览器要使用同源策略？是为了保证用户的信息安全，防止恶意网站窃取数据，如果网页之间不满足同源要求，将不能: 1、共享Cookie、LocalStorage、IndexDB 2、获取DOM 3、AJAX请求不能发送 同源策略的非绝对性：123456&lt;script&gt;&lt;/script&gt;&lt;img/&gt;&lt;iframe/&gt;&lt;link/&gt;&lt;video/&gt;&lt;audio/&gt; 等带有src属性的标签可以从不同的域加载和执行资源。其他插件的同源策略：flash、java applet、silverlight、googlegears等浏览器加载的第三方插件也有各自的同源策略，只是这些同源策略不属于浏览器原生的同源策略，如果有漏洞则可能被黑客利用，从而留下XSS攻击的后患 所谓的同源指：域名、网络协议、端口号相同，三条有一条不同就会产生跨域。 例如：你用浏览器打开http://baidu.com，浏览器执行JavaScript脚本时发现脚本向http://cloud.baidu.com域名发请求，这时浏览器就会报错，这就是跨域报错。实现跨域请求的方式有许多种，今天讲的是w3c的标准CORS。 5、什么是CORS？CORS是w3c的标准，全称是跨域资源请求，CORS是一种机制，它使用额外的HTTP头来告诉浏览器，让运行在一个origin(domain)上的Web应用允许请求不同源服务器上指定的资源。换言之，它允许浏览器向声明了 CORS 的跨域服务器，发出 XMLHttpReuest 请求，从而克服 Ajax 只能同源使用的限制。 使用axios跨域post json数据时，发现请求头的 Request Method ：POST 变成了 Request Method ：OPTIONS，还报了个请求错误，原因有两个： 1、后台没开放 OPTIONS 请求方法； 2、后台不允许跨域； 请求头的请求方法由 POST 变成 OPTIONS 是因为 POST 的是 json 数据，CORS跨域发送的HTTP请求分为简单请求与非简单请求，对于非简单请求，要求必须首先使用 OPTIONS 方法发起一个预检请求到服务器，以获知服务器是否允许该实际请求。所以把请求方式改成简单请求就不会发送OPTIONS请求了 6、发送简单请求把发送的json格式的数据改成发送表单数据即OK了12345678910export const post = (url, params) =&gt; &#123; return axios(&#123; url: url, method: "post", data: params, headers: &#123; "Content-Type": "application/x-www-form-urlencoded" &#125; &#125;)&#125; 对于简单请求与非简单请求的详细资料可阅读HTTP访问控制（CORS） 参考：简书]]></content>
+      <categories>
+        <category>跨域</category>
+      </categories>
+      <tags>
+        <tag>CORS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2019%2F03%2F06%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+  </entry>
 </search>
